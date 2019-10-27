@@ -115,9 +115,6 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-09c6723c6c24250c9
-      # For testing purposes only
-      # SecurityGroups:
-      # - !Ref MasterNodeSecGroup
       InstanceType: t3.micro
       KeyName: my-key
       NetworkInterfaces: 
@@ -148,18 +145,54 @@ Resources:
           ToPort: 65535
           CidrIp: 0.0.0.0/0
 
-  WorkersLaunchConfig:
-    Type: AWS::AutoScaling::LaunchConfiguration
+  Worker1NodeInstance:
+    Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-09c6723c6c24250c9
-      SecurityGroups:
-      - !Ref WorkerNodeSecGroup
       InstanceType: t3.micro
       KeyName: my-key
+      NetworkInterfaces: 
+      - AssociatePublicIpAddress: "true"
+        DeviceIndex: "0"
+        GroupSet: 
+          - Ref: WorkerNodeSecGroup
+        SubnetId: 
+          Ref: "PublicSubnet1"
       BlockDeviceMappings:
       - DeviceName: "/dev/sdk"
         Ebs:
           VolumeSize: "10"
+
+  Worker2NodeInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-09c6723c6c24250c9
+      InstanceType: t3.micro
+      KeyName: my-key
+      NetworkInterfaces: 
+      - AssociatePublicIpAddress: "true"
+        DeviceIndex: "0"
+        GroupSet: 
+          - Ref: WorkerNodeSecGroup
+        SubnetId: 
+          Ref: "PublicSubnet2"
+      BlockDeviceMappings:
+      - DeviceName: "/dev/sdk"
+        Ebs:
+          VolumeSize: "10"
+
+  # WorkersLaunchConfig:
+  #   Type: AWS::AutoScaling::LaunchConfiguration
+  #   Properties:
+  #     ImageId: ami-09c6723c6c24250c9
+  #     SecurityGroups:
+  #     - Ref: WorkerNodeSecGroup
+  #     InstanceType: t3.micro
+  #     KeyName: my-key
+  #     BlockDeviceMappings:
+  #     - DeviceName: "/dev/sdk"
+  #       Ebs:
+  #         VolumeSize: "10"
 
   # MasterGroup:
   #   Type: AWS::AutoScaling::AutoScalingGroup
@@ -171,16 +204,16 @@ Resources:
   #     MinSize: '1'
   #     MaxSize: '1'
 
-  WorkerGroup:
-    Type: AWS::AutoScaling::AutoScalingGroup
-    Properties:
-      VPCZoneIdentifier: 
-      - !Ref PublicSubnet1
-      - !Ref PublicSubnet2
-      LaunchConfigurationName:
-        Ref: WorkersLaunchConfig
-      MinSize: '2'
-      MaxSize: '2'
+  # WorkerGroup:
+  #   Type: AWS::AutoScaling::AutoScalingGroup
+  #   Properties:
+  #     VPCZoneIdentifier: 
+  #     - !Ref PublicSubnet1
+  #     - !Ref PublicSubnet2
+  #     LaunchConfigurationName:
+  #       Ref: WorkersLaunchConfig
+  #     MinSize: '2'
+  #     MaxSize: '2'
 
 Outputs:
   VPC:
