@@ -2,8 +2,8 @@
 master ansible_host=localhost ansible_user=ubuntu
 
 [workers]
-worker1 ansible_host=10.0.0.240 ansible_user=ubuntu
-worker2 ansible_host=10.0.1.67 ansible_user=ubuntu
+worker1 ansible_host=54.191.105.162 ansible_user=ubuntu
+worker2 ansible_host=34.221.209.191 ansible_user=ubuntu
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
