@@ -2,66 +2,43 @@
   become: yes
   tasks:
    - name: install Docker
-     yum:
-       name: docker
+     apt:
+       name: docker.io
        state: present
        update_cache: true
 
-   - name: start Docker
-     service:
-       name: docker
-       state: started
+   - name: install APT Transport HTTPS
+     apt:
+       name: apt-transport-https
+       state: present
 
-   - name: disable SELinux
-     command: setenforce 0
+   - name: add Kubernetes apt-key
+     apt_key:
+       url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+       state: present
 
-   - name: disable SELinux on reboot
-     selinux:
-       state: disabled
-
-   - name: ensure net.bridge.bridge-nf-call-ip6tables is set to 1
-     sysctl:
-      name: net.bridge.bridge-nf-call-ip6tables
-      value: 1
+   - name: add Kubernetes' APT repository
+     apt_repository:
+      repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
       state: present
-
-   - name: ensure net.bridge.bridge-nf-call-iptables is set to 1
-     sysctl:
-      name: net.bridge.bridge-nf-call-iptables
-      value: 1
-      state: present
-
-   - name: add Kubernetes' YUM repository
-     yum_repository:
-      name: Kubernetes
-      description: Kubernetes YUM repository
-      baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
-      gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-      gpgcheck: yes
+      filename: 'kubernetes'
 
    - name: install kubelet
-     yum:
-        name: kubelet-1.14.0
-        state: present
-        update_cache: true
+     apt:
+       name: kubelet=1.14.0-00
+       state: present
+       update_cache: true
 
    - name: install kubeadm
-     yum:
-        name: kubeadm-1.14.0
-        state: present
-
-   - name: start kubelet
-     service:
-       name: kubelet
-       enabled: yes
-       state: started
+     apt:
+       name: kubeadm=1.14.0-00
+       state: present
 
 - hosts: master
   become: yes
   tasks:
    - name: install kubectl
-     yum:
-        name: kubectl-1.14.0
-        state: present
-        allow_downgrade: yes
-
+     apt:
+       name: kubectl=1.14.0-00
+       state: present
+       force: yes
