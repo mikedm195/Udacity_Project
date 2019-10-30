@@ -29,3 +29,8 @@
       args:
         chdir: $HOME
         creates: pod_network_setup.txt
+    
+    - name: Set kubernetes autocompletion
+      become: yes
+      become_user: ubuntu
+      shell: echo 'source <(kubectl completion bash)' >>~/.bashrc
