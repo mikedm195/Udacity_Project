@@ -1,29 +1,17 @@
-## The Makefile includes instructions on environment setup and lint tests
-# Create and activate a virtual environment
-# Install dependencies in requirements.txt
-# Dockerfile should pass hadolint
-# app.py should pass pylint
-# (Optional) Build a simple integration test
+TEST ?= discover -s tests -p *Test*.py
+
+build:
+	docker-compose build
 
 run:
 	docker-compose -p fibonacci up
 
-install:
-	# This should be run from inside a virtualenv
-	pip install --upgrade pip &&\
-		pip install -r requirements.txt
-
 test:
-	# Additional, optional, tests could go here
-	python -m pytest -vv --cov=main tests/*.py
-	#python -m pytest --nbval notebook.ipynb
+	# CMD="ls" docker-compose -p fibonacci up --build
+	CMD="python3 -m unittest $(TEST) -v" docker-compose -p fibonacci up
+	# CMD="python3 -m pytest -vv --cov=main $(TEST)" docker-compose -p fibonacci up 
 
 lint:
 	# See local hadolint install instructions:   https://github.com/hadolint/hadolint
-	# This is linter for Dockerfiles
 	hadolint Dockerfile
-	# This is a linter for Python source code linter: https://www.pylint.org/
-	# This should be run from inside a virtualenv
-	pylint --disable=R,C,W1203 app.py
-
-all: install lint test
+	CMD="pylint --disable=R,C,W1203 main.py" docker-compose -p fibonacci up
