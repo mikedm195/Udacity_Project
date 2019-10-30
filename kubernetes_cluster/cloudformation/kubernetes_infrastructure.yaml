@@ -126,6 +126,10 @@ Resources:
       InstanceType: t3.micro
       KeyName: my-key
       IamInstanceProfile: !Ref ECRInstanceProfile
+      Tags: 
+      - 
+        Key: "Name"
+        Value: "Master"
       NetworkInterfaces: 
       - AssociatePublicIpAddress: "true"
         DeviceIndex: "0"
@@ -161,6 +165,10 @@ Resources:
       InstanceType: t3.micro
       KeyName: my-key
       IamInstanceProfile: !Ref ECRInstanceProfile
+      Tags: 
+      - 
+        Key: "Name"
+        Value: "Worker1"
       NetworkInterfaces: 
       - AssociatePublicIpAddress: "true"
         DeviceIndex: "0"
@@ -180,6 +188,10 @@ Resources:
       InstanceType: t3.micro
       KeyName: my-key
       IamInstanceProfile: !Ref ECRInstanceProfile
+      Tags: 
+      - 
+        Key: "Name"
+        Value: "Worker2"
       NetworkInterfaces: 
       - AssociatePublicIpAddress: "true"
         DeviceIndex: "0"
@@ -199,6 +211,10 @@ Resources:
       InstanceType: t3.micro
       KeyName: my-key
       IamInstanceProfile: !Ref ECRInstanceProfile
+      Tags: 
+      - 
+        Key: "Name"
+        Value: "Jenkins"
       NetworkInterfaces: 
       - AssociatePublicIpAddress: "true"
         DeviceIndex: "0"
