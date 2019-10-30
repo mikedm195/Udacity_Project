@@ -19,6 +19,14 @@ Parameters:
     Default: 10.0.1.0/24
 
 Resources:
+
+  ECRInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties: 
+      Path: "/"
+      Roles: 
+        - ecr-role
+
   VPC:
     Type: AWS::EC2::VPC
     Properties:
@@ -117,6 +125,7 @@ Resources:
       ImageId: ami-09c6723c6c24250c9
       InstanceType: t3.micro
       KeyName: my-key
+      IamInstanceProfile: !Ref ECRInstanceProfile
       NetworkInterfaces: 
       - AssociatePublicIpAddress: "true"
         DeviceIndex: "0"
@@ -151,6 +160,7 @@ Resources:
       ImageId: ami-09c6723c6c24250c9
       InstanceType: t3.micro
       KeyName: my-key
+      IamInstanceProfile: !Ref ECRInstanceProfile
       NetworkInterfaces: 
       - AssociatePublicIpAddress: "true"
         DeviceIndex: "0"
@@ -169,6 +179,7 @@ Resources:
       ImageId: ami-09c6723c6c24250c9
       InstanceType: t3.micro
       KeyName: my-key
+      IamInstanceProfile: !Ref ECRInstanceProfile
       NetworkInterfaces: 
       - AssociatePublicIpAddress: "true"
         DeviceIndex: "0"
@@ -180,6 +191,26 @@ Resources:
       - DeviceName: "/dev/sdk"
         Ebs:
           VolumeSize: "10"
+
+  JenkinsInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-09c6723c6c24250c9
+      InstanceType: t3.micro
+      KeyName: my-key
+      IamInstanceProfile: !Ref ECRInstanceProfile
+      NetworkInterfaces: 
+      - AssociatePublicIpAddress: "true"
+        DeviceIndex: "0"
+        GroupSet: 
+          - Ref: WorkerNodeSecGroup
+        SubnetId: 
+          Ref: "PublicSubnet2"
+      BlockDeviceMappings:
+      - DeviceName: "/dev/sdk"
+        Ebs:
+          VolumeSize: "10"
+
 
   # WorkersLaunchConfig:
   #   Type: AWS::AutoScaling::LaunchConfiguration
