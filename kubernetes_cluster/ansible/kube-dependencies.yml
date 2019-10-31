@@ -42,3 +42,8 @@
        name: kubectl=1.14.0-00
        state: present
        force: yes
+
+   - name: install awscli
+     apt:
+       name: awscli
+       state: present
