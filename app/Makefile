@@ -14,4 +14,4 @@ test:
 lint:
 	# See local hadolint install instructions:   https://github.com/hadolint/hadolint
 	hadolint Dockerfile
-	CMD="pylint --disable=R,C,W1203 main.py" docker-compose -p fibonacci up
+	pylint --disable=R,C,W1203 main.py"
