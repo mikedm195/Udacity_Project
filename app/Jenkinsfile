@@ -10,30 +10,38 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh '''
-                    pwd
-                    ls
-                    echo "Building docker image"'
-                    sh 'make build'
-                '''
+                dir("app") {
+                    sh '''
+                        pwd
+                        ls
+                        echo "Building docker image"'
+                        sh 'make build'
+                    '''
+                }
             }
         }
         stage('Test') {
             steps {
-                sh 'echo "Testing image"'
-                sh 'make test'
+                dir("app") {
+                    sh 'echo "Testing image"'
+                    sh 'make test'
+                }
             }
         }
         stage('Lint') {
             steps {
-                sh 'echo "Check linting"'
-                sh 'make lint'
+                dir("app") {
+                    sh 'echo "Check linting"'
+                    sh 'make lint'
+                }
             }
         }
         stage('Push') {
             steps {
-                sh 'echo "Pushing docker image"'
-                sh 'sh push_docker.sh'
+                dir("app") {
+                    sh 'echo "Pushing docker image"'
+                    sh 'sh push_docker.sh'
+                }
             }
         }
     }
