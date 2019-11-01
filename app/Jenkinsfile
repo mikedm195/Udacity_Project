@@ -3,9 +3,9 @@ pipeline {
     stages {
         stage('first') {
             steps {
-                sh 'echo "Hello World"'
+                sh 'echo "Changing app dir"'
                 sh '''
-                    echo "first test with jenkins"
+                    cd app
                     ls -lah
                 '''
             }
