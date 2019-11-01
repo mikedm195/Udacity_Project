@@ -14,8 +14,8 @@ pipeline {
                     sh '''
                         pwd
                         ls
-                        echo "Building docker image"'
-                        sh 'make build'
+                        echo "Building docker image"
+                        make build
                     '''
                 }
             }
@@ -23,24 +23,30 @@ pipeline {
         stage('Test') {
             steps {
                 dir("app") {
-                    sh 'echo "Testing image"'
-                    sh 'make test'
+                    sh '''
+                        echo "Testing image"
+                        make test
+                    '''
                 }
             }
         }
         stage('Lint') {
             steps {
                 dir("app") {
-                    sh 'echo "Check linting"'
-                    sh 'make lint'
+                    sh '''
+                        echo "Check linting"
+                        make lint
+                    '''
                 }
             }
         }
         stage('Push') {
             steps {
                 dir("app") {
-                    sh 'echo "Pushing docker image"'
-                    sh 'sh push_docker.sh'
+                    sh '''
+                        echo "Pushing docker image"
+                        sh push_docker.sh
+                    '''
                 }
             }
         }
