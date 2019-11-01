@@ -10,9 +10,28 @@ pipeline {
                 '''
             }
         }
-        stage('Lint HTML') {
+        stage('Build') {
             steps {
-                sh 'tidy -q -e Jenkins/*.html'
+                sh 'echo "Building docker image"'
+                sh 'make build'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'echo "Testing image"'
+                sh 'make test'
+            }
+        }
+        stage('Lint') {
+            steps {
+                sh 'echo "Check linting"'
+                sh 'make lint'
+            }
+        }
+        stage('Lint') {
+            steps {
+                sh 'echo "Pushing docker image"'
+                sh 'sh push_docker.sh'
             }
         }
     }
