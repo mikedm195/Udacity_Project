@@ -10,8 +10,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'echo "Building docker image"'
-                sh 'make build'
+                sh '''
+                    pwd
+                    ls
+                    echo "Building docker image"'
+                    sh 'make build'
+                '''
             }
         }
         stage('Test') {
