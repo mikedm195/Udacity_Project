@@ -2,8 +2,10 @@ pipeline {
     agent any
     stages {
         stage('first') {
-            dir("app") {
-                sh "pwd"
+            steps {
+                dir("app") {
+                    sh "pwd"
+                }
             }
         }
         stage('Build') {
