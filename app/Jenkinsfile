@@ -2,12 +2,8 @@ pipeline {
     agent any
     stages {
         stage('first') {
-            steps {
-                sh 'echo "Changing app dir"'
-                sh '''
-                    cd app
-                    ls -lah
-                '''
+            dir("app") {
+                sh "pwd"
             }
         }
         stage('Build') {
