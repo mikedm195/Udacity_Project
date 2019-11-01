@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('first') {
             steps {
                 sh 'echo "Hello World"'
                 sh '''
@@ -28,7 +28,7 @@ pipeline {
                 sh 'make lint'
             }
         }
-        stage('Lint') {
+        stage('Push') {
             steps {
                 sh 'echo "Pushing docker image"'
                 sh 'sh push_docker.sh'
