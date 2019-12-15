@@ -1,0 +1,20 @@
+- hosts: master
+  vars:
+    version: latest
+  become: yes
+  tasks:
+    - name: 'Create deployments directory'
+      become_user: ubuntu
+      file: >
+        path=~/deployments
+        state=directory
+        mode=0755
+    - name: 'Add kubernetes deployment'
+      become_user: ubuntu
+      template: >
+        src=deployment.j2
+        dest=~/deployments/fibonacci_deployment.yml
+        mode=0755
+    - name: Update deployent
+      become_user: ubuntu
+      shell: kubectl apply -f ~/deployments/fibonacci_deployment.yml

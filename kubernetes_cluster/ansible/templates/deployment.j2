@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fibonacci-svc
+spec:
+  selector:
+    app: fibonacci
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -12,7 +24,7 @@ spec:
     spec:
       containers:
         - name: fibonacci
-          image: 318180760014.dkr.ecr.us-west-2.amazonaws.com/udacity-project:latest
+          image: 318180760014.dkr.ecr.us-west-2.amazonaws.com/udacity-project:{{ version }}
           ports:
             - name: http
               containerPort: 5000
