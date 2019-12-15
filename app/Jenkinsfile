@@ -26,9 +26,7 @@ pipeline {
                     dir("app") {
                         sh '''
                             pwd
-                            ls
                             echo "Building docker image"
-                            make build
                         '''
                         docker.build("$IMAGE")
                     }
