@@ -1,11 +1,20 @@
 pipeline {
     agent any
+    environment 
+    {
+        VERSION = 'latest'
+        PROJECT = 'tap_sample'
+        IMAGE = 'fibonacci:latest'
+        ECRURL = 'https://318180760014.dkr.ecr.us-west-2.amazonaws.com'
+        ECRCRED = 'ecr_credentials'
+    }
     stages {
-        stage('first') {
+        stage('Build preparations') {
             steps {
-                dir("app") {
-                    sh "pwd"
-                }
+                shortCommitHash = gitCommitHash.take(7)
+                VERSION = shortCommitHash
+                currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
+                IMAGE = "$PROJECT:$VERSION"
             }
         }
         stage('Build') {
@@ -17,6 +26,7 @@ pipeline {
                         echo "Building docker image"
                         make build
                     '''
+                    docker.build("$IMAGE")
                 }
             }
         }
@@ -25,7 +35,7 @@ pipeline {
                 dir("app") {
                     sh '''
                         echo "Testing image"
-                        make test
+                        docker run -it --entrypoint=python3 $IMAGE -m unittest discover -s tests -p *Test*.py -v
                     '''
                 }
             }
@@ -45,8 +55,10 @@ pipeline {
                 dir("app") {
                     sh '''
                         echo "Pushing docker image"
-                        sh push_docker.sh
                     '''
+                    docker.withRegistry("https://your.ecr.domain.amazonws.com", "ecr:us-east-1:credential-id") {
+                        docker.image("your-image-name").push()
+                    }
                 }
             }
         }
