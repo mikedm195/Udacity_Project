@@ -14,4 +14,4 @@ test:
 lint:
 	# See local hadolint install instructions:   https://github.com/hadolint/hadolint
 	hadolint Dockerfile
-	pylint --disable=R,C,W1203 main.py"
+	pylint --disable=R,C,W1203 main.py
