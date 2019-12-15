@@ -3,7 +3,7 @@ pipeline {
     environment 
     {
         VERSION = 'latest'
-        PROJECT = 'tap_sample'
+        PROJECT = 'fibonacci'
         IMAGE = 'fibonacci:latest'
         ECRURL = 'https://318180760014.dkr.ecr.us-west-2.amazonaws.com'
         ECRCRED = 'ecr_credentials'
