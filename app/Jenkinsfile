@@ -36,32 +36,38 @@ pipeline {
         }
         stage('Test') {
             steps {
-                dir("app") {
-                    sh '''
-                        echo "Testing image"
-                        docker run -it --entrypoint=python3 $IMAGE -m unittest discover -s tests -p *Test*.py -v
-                    '''
+                script {
+                    dir("app") {
+                        sh '''
+                            echo "Testing image"
+                            docker run -it --entrypoint=python3 $IMAGE -m unittest discover -s tests -p *Test*.py -v
+                        '''
+                    }
                 }
             }
         }
         stage('Lint') {
             steps {
-                dir("app") {
-                    sh '''
-                        echo "Check linting"
-                        make lint
-                    '''
+                script {
+                    dir("app") {
+                        sh '''
+                            echo "Check linting"
+                            make lint
+                        '''
+                    }
                 }
             }
         }
         stage('Push') {
             steps {
-                dir("app") {
-                    sh '''
-                        echo "Pushing docker image"
-                    '''
-                    docker.withRegistry("https://your.ecr.domain.amazonws.com", "ecr:us-east-1:credential-id") {
-                        docker.image("your-image-name").push()
+                script {
+                    dir("app") {
+                        sh '''
+                            echo "Pushing docker image"
+                        '''
+                        docker.withRegistry("https://your.ecr.domain.amazonws.com", "ecr:us-east-1:credential-id") {
+                            docker.image("your-image-name").push()
+                        }
                     }
                 }
             }
