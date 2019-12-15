@@ -3,7 +3,7 @@ pipeline {
     environment 
     {
         VERSION = 'latest'
-        PROJECT = 'fibonacci'
+        PROJECT = '318180760014.dkr.ecr.us-west-2.amazonaws.com/udacity-project'
         IMAGE = 'fibonacci:latest'
         ECRURL = 'https://318180760014.dkr.ecr.us-west-2.amazonaws.com'
         ECRCRED = 'ecr_credentials'
