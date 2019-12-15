@@ -2,9 +2,7 @@ pipeline {
     agent any
     environment 
     {
-        VERSION = 'latest'
         PROJECT = '318180760014.dkr.ecr.us-west-2.amazonaws.com/udacity-project'
-        IMAGE = 'fibonacci:latest'
         ECRURL = 'https://318180760014.dkr.ecr.us-west-2.amazonaws.com'
         ECRCRED = 'ecr_credentials'
     }
@@ -64,8 +62,8 @@ pipeline {
                         sh '''
                             echo "Pushing docker image"
                         '''
-                        docker.withRegistry("https://your.ecr.domain.amazonws.com", "ecr:us-east-1:credential-id") {
-                            docker.image("your-image-name").push()
+                        docker.withRegistry("$ECRURL", "$ECRCRED") {
+                            docker.image("$IMAGE").push()
                         }
                     }
                 }
