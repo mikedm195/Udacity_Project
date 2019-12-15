@@ -11,10 +11,12 @@ pipeline {
     stages {
         stage('Build preparations') {
             steps {
-                shortCommitHash = gitCommitHash.take(7)
-                VERSION = shortCommitHash
-                currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
-                IMAGE = "$PROJECT:$VERSION"
+                script {
+                    shortCommitHash = gitCommitHash.take(7)
+                    VERSION = shortCommitHash
+                    currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
+                    IMAGE = "$PROJECT:$VERSION"
+                }
             }
         }
         stage('Build') {
