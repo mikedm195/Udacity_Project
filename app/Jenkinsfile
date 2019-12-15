@@ -4,7 +4,7 @@ pipeline {
     {
         PROJECT = '318180760014.dkr.ecr.us-west-2.amazonaws.com/udacity-project'
         ECRURL = 'https://318180760014.dkr.ecr.us-west-2.amazonaws.com'
-        ECRCRED = 'ecr_credentials'
+        ECRCRED = 'ecr:us-west-2:ecr_credentials'
     }
     stages {
         stage('Build preparations') {
