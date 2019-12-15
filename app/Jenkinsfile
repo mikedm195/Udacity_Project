@@ -14,7 +14,7 @@ pipeline {
                     shortCommitHash = gitCommitHash.take(7)
                     VERSION = shortCommitHash
                     currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
-                    IMAGE = "$PROJECT:$VERSION"
+                    env.IMAGE = "$PROJECT:$VERSION"
                 }
             }
         }
