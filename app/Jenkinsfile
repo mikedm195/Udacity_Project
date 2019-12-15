@@ -39,7 +39,7 @@ pipeline {
                     dir("app") {
                         sh '''
                             echo "Testing image"
-                            docker run -it --entrypoint=python3 $IMAGE -m unittest discover -s tests -p *Test*.py -v
+                            docker run --entrypoint=python3 $IMAGE -m unittest discover -s tests -p *Test*.py -v
                         '''
                     }
                 }
