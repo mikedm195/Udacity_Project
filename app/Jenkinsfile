@@ -21,14 +21,16 @@ pipeline {
         }
         stage('Build') {
             steps {
-                dir("app") {
-                    sh '''
-                        pwd
-                        ls
-                        echo "Building docker image"
-                        make build
-                    '''
-                    docker.build("$IMAGE")
+                script {
+                    dir("app") {
+                        sh '''
+                            pwd
+                            ls
+                            echo "Building docker image"
+                            make build
+                        '''
+                        docker.build("$IMAGE")
+                    }
                 }
             }
         }
