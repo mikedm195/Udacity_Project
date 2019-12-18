@@ -71,8 +71,8 @@ pipeline {
         }
         stage('Deploy into kubernetes') {
             steps {
-                ansiblePlaybook('../kubernetes_cluster/ansible/update_fibonacci_deploy.yml') {
-                    inventoryPath('../kubernetes_cluster/ansible/hosts')
+                ansiblePlaybook('kubernetes_cluster/ansible/update_fibonacci_deploy.yml') {
+                    inventoryPath('kubernetes_cluster/ansible/hosts')
                     credentialsId('my_secret_key')
                     becomeUser("ubuntu")
                     extraVars {
