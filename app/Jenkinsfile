@@ -75,7 +75,7 @@ pipeline {
                     sh '''
                         echo "Deploying into kubernetes"
                         export ANSIBLE_HOST_KEY_CHECKING=False
-                        cat ssh*
+                        cat /var/lib/jenkins/workspace/Udacity_Project_PR-2/ssh*
                     '''
                     ansiblePlaybook(
                         playbook: 'kubernetes_cluster/ansible/update_fibonacci_deploy.yml',
@@ -84,7 +84,7 @@ pipeline {
                         becomeUser: 'ubuntu',
                         colorized: true,
                         extraVars: [
-                            version: '$VERSION'
+                            version: "$VERSION"
                         ]
                     )
                 }
