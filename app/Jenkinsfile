@@ -19,6 +19,9 @@ pipeline {
             }
         }
         stage('Build') {
+            when {
+                branch 'PR-*'
+            }
             steps {
                 script {
                     dir("app") {
@@ -32,6 +35,9 @@ pipeline {
             }
         }
         stage('Test') {
+            when {
+                branch 'PR-*'
+            }
             steps {
                 script {
                     dir("app") {
@@ -44,6 +50,9 @@ pipeline {
             }
         }
         stage('Lint') {
+            when {
+                branch 'PR-*'
+            }
             steps {
                 script {
                     dir("app") {
@@ -56,6 +65,9 @@ pipeline {
             }
         }
         stage('Push') {
+            when {
+                branch 'PR-*'
+            }
             steps {
                 script {
                     dir("app") {
@@ -70,6 +82,9 @@ pipeline {
             }
         }
         stage('Deploy into kubernetes') {
+            when {
+                branch 'master'
+            }
             steps {
                 script {
                     sh '''
