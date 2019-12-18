@@ -75,13 +75,15 @@ pipeline {
                     sh '''
                         echo "Deploying into kubernetes"
                     '''
-                    ansiblePlaybook('kubernetes_cluster/ansible/update_fibonacci_deploy.yml') {
-                        inventoryPath('kubernetes_cluster/ansible/hosts')
-                        credentialsId('my_secret_key')
-                        becomeUser('ubuntu')
-                        extraVars {
-                            extraVar('version', '$VERSION', false)
-                        }
+                    ansiblePlaybook(
+                        playbook: 'kubernetes_cluster/ansible/update_fibonacci_deploy.yml',
+                        inventory: 'kubernetes_cluster/ansible/hosts'
+                        credentialsId: 'my_secret_key',
+                        becomeUser: 'ubuntu',
+                        colorized: true,
+                        extraVars: [
+                            version: '$VERSION'
+                        ]
                     }
                 }
             }
