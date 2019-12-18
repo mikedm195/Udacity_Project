@@ -74,6 +74,7 @@ pipeline {
                 script {
                     sh '''
                         echo "Deploying into kubernetes"
+                        export ANSIBLE_HOST_KEY_CHECKING=False
                     '''
                     ansiblePlaybook(
                         playbook: 'kubernetes_cluster/ansible/update_fibonacci_deploy.yml',
