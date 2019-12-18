@@ -71,12 +71,17 @@ pipeline {
         }
         stage('Deploy into kubernetes') {
             steps {
-                ansiblePlaybook('kubernetes_cluster/ansible/update_fibonacci_deploy.yml') {
-                    inventoryPath('kubernetes_cluster/ansible/hosts')
-                    credentialsId('my_secret_key')
-                    becomeUser("ubuntu")
-                    extraVars {
-                        extraVar("version", "$VERSION", false)
+                script {
+                    sh '''
+                        echo "Deploying into kubernetes"
+                    '''
+                    ansiblePlaybook('kubernetes_cluster/ansible/update_fibonacci_deploy.yml') {
+                        inventoryPath('kubernetes_cluster/ansible/hosts')
+                        credentialsId('my_secret_key')
+                        becomeUser('ubuntu')
+                        extraVars {
+                            extraVar('version', '$VERSION', false)
+                        }
                     }
                 }
             }
