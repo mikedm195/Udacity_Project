@@ -1,6 +1,4 @@
 - hosts: master
-  vars:
-    version: latest
   become: yes
   tasks:
     - name: 'Create deployments directory'

@@ -77,7 +77,7 @@ pipeline {
                     '''
                     ansiblePlaybook(
                         playbook: 'kubernetes_cluster/ansible/update_fibonacci_deploy.yml',
-                        inventory: 'kubernetes_cluster/ansible/hosts'
+                        inventory: 'kubernetes_cluster/ansible/hosts',
                         credentialsId: 'my_secret_key',
                         becomeUser: 'ubuntu',
                         colorized: true,
