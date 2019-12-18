@@ -84,7 +84,7 @@ pipeline {
                         extraVars: [
                             version: '$VERSION'
                         ]
-                    }
+                    )
                 }
             }
         }
