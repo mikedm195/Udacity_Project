@@ -12,4 +12,4 @@ jenkins ansible_host=54.201.58.113 ansible_user=ubuntu
 ansible_python_interpreter=/usr/bin/python3
 
 [defaults]
-host_key_checking=False
+host_key_checking = False
