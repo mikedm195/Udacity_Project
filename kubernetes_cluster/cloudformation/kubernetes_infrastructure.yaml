@@ -124,7 +124,7 @@ Resources:
     Properties:
       ImageId: ami-09c6723c6c24250c9
       InstanceType: t3.micro
-      KeyName: my-key
+      KeyName: my-new-key
       IamInstanceProfile: !Ref ECRInstanceProfile
       Tags: 
       - 
@@ -163,7 +163,7 @@ Resources:
     Properties:
       ImageId: ami-09c6723c6c24250c9
       InstanceType: t3.micro
-      KeyName: my-key
+      KeyName: my-new-key
       IamInstanceProfile: !Ref ECRInstanceProfile
       Tags: 
       - 
@@ -186,7 +186,7 @@ Resources:
     Properties:
       ImageId: ami-09c6723c6c24250c9
       InstanceType: t3.micro
-      KeyName: my-key
+      KeyName: my-new-key
       IamInstanceProfile: !Ref ECRInstanceProfile
       Tags: 
       - 
@@ -204,12 +204,32 @@ Resources:
         Ebs:
           VolumeSize: "10"
 
+  JenkinsSecGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow http and local ssh
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
+          CidrIp: 0.0.0.0/0
+
   JenkinsInstance:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-09c6723c6c24250c9
       InstanceType: t3.micro
-      KeyName: my-key
+      KeyName: my-new-key
       IamInstanceProfile: !Ref ECRInstanceProfile
       Tags: 
       - 
@@ -219,7 +239,7 @@ Resources:
       - AssociatePublicIpAddress: "true"
         DeviceIndex: "0"
         GroupSet: 
-          - Ref: WorkerNodeSecGroup
+          - Ref: JenkinsSecGroup
         SubnetId: 
           Ref: "PublicSubnet2"
       BlockDeviceMappings:
@@ -235,7 +255,7 @@ Resources:
   #     SecurityGroups:
   #     - Ref: WorkerNodeSecGroup
   #     InstanceType: t3.micro
-  #     KeyName: my-key
+  #     KeyName: my-new-key
   #     BlockDeviceMappings:
   #     - DeviceName: "/dev/sdk"
   #       Ebs:

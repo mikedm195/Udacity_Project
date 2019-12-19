@@ -1,0 +1,52 @@
+- hosts: jenkins
+  become: yes
+  tasks:
+   - name: install openjdk
+     apt:
+       name: default-jdk
+       state: present
+
+   - name: add Jenkins apt-key
+     apt_key:
+       url: https://pkg.jenkins.io/debian/jenkins-ci.org.key
+       state: present
+
+   - name: add Jenkins' APT repository
+     apt_repository:
+      repo: deb http://pkg.jenkins.io/debian-stable binary/ 
+      state: present
+      filename: 'jenkins'
+
+   - name: install jenkins
+     apt:
+       name: jenkins
+       state: present
+
+   - name: enable jenkins
+     systemd:
+       name: jenkins
+       enabled: true
+    
+   - name: install Docker
+     apt:
+       name: docker.io
+       state: present
+       update_cache: true
+
+   - name: Add jenkins to docker group
+     become: yes
+     shell: usermod -aG docker jenkins
+
+   - name: install ansible
+     apt:
+       name: ansible
+       state: present
+ 
+   - name: init password jenkin
+     shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+     changed_when: false
+     register: result
+ 
+   - name: print init password jenkins
+     debug:
+       var: result.stdout
